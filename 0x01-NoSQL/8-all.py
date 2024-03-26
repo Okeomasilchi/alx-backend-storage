@@ -4,25 +4,21 @@
 Python function that lists all documents in a collection
 """
 
+from pymongo.collection import Collection
+from pymongo.cursor import Cursor
 
-def list_all(mongo_collection):
+
+def list_all(mongo_collection: Collection) -> Cursor:
     """
-    Retrieve all documents from the given
-    MongoDB collection.
+    Retrieve all documents from the given MongoDB collection.
 
     Args:
-      mongo_collection (pymongo.collection.Collection):
-      The MongoDB collection to retrieve documents from.
+        mongo_collection (pymongo.collection.Collection):
+            The MongoDB collection to retrieve documents from.
 
     Returns:
-      pymongo.cursor.Cursor: A cursor object containing
-      all the retrieved documents.
+        pymongo.cursor.Cursor: A cursor object containing
+        all the retrieved documents.
     """
-    documents = mongo_collection.find()
-    result = []
 
-    # Iterate over the documents and append them to the result list
-    for document in documents:
-        result.append(document)
-
-    return documents
+    return mongo_collection.find()
