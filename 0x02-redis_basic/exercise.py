@@ -48,9 +48,10 @@ class Cache:
         Returns:
             The generated ID for the stored data.
         """
-        id = self.gen_id()
-        self._redis.set(id, data)
-        return id
+        if data:
+            id = self.gen_id()
+            self._redis.set(id, data)
+            return id
 
     def gen_id(self) -> str:
         """
