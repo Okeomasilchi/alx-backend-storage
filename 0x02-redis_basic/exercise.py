@@ -53,6 +53,33 @@ def call_history(method: Callable) -> Callable:
         return output
     return wrapper
 
+
+def replay(func):
+    """Function to display call history of a decorated function.
+
+    Args:
+        decorated_method: The decorated function object.
+
+    Returns:
+        A string representing the call history.
+    """
+    r = redis.Redis()
+    method_name = func.__qualname__
+    inputs_key = f"{method_name}:inputs"
+    outputs_key = f"{method_name}:outputs"
+
+    inputs_history = r.lrange(inputs_key, 0, -1)
+    outputs_history = r.lrange(outputs_key, 0, -1)
+
+    num_calls = len(inputs_history)
+
+    print(f"{method_name} was called {num_calls} times:")
+    for i in range(num_calls):
+        inputs_str = inputs_history[i].decode()
+        output_str = outputs_history[i].decode()
+        print(f"{method_name}(*{inputs_str}) -> {output_str}")
+
+
 class Cache:
     """
     A class representing a cache.
