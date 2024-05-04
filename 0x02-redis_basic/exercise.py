@@ -58,7 +58,7 @@ def replay(func):
     """Function to display call history of a decorated function.
 
     Args:
-        decorated_method: The decorated function object.
+        func: The decorated function object.
 
     Returns:
         A string representing the call history.
@@ -74,9 +74,9 @@ def replay(func):
     num_calls = len(inputs_history)
 
     print(f"{method_name} was called {num_calls} times:")
-    for i in range(num_calls):
-        inputs_str = inputs_history[i].decode()
-        output_str = outputs_history[i].decode()
+    for inputs_str, output_str in zip(inputs_history, outputs_history):
+        inputs_str = inputs_str.decode()
+        output_str = output_str.decode()
         print(f"{method_name}(*{inputs_str}) -> {output_str}")
 
 
