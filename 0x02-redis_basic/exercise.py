@@ -4,6 +4,7 @@ Module that holds the class Cache to handle
 caching using radis
 """
 import redis
+from typing import Union
 from uuid import uuid4
 
 
@@ -35,7 +36,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self, data: str | bytes | int | float) -> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Stores the given data in Redis and returns the
         generated ID.
