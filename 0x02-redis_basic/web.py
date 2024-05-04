@@ -29,7 +29,8 @@ def cache_result(func):
         if count:
             r.incr(key)
         else:
-            r.set(key, 1, ex=10)
+            r.set(key, 1)
+            r.expire(key, 10)
         return func(url)
     return wrapper
 
