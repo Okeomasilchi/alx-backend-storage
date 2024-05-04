@@ -4,10 +4,9 @@ Implementing an expiring web cache and tracker
 """
 import requests
 import redis
-import time
 from functools import wraps
 
-r = redis.Redis(host='localhost', port=6379, db=0)
+r = redis.Redis()
 
 
 def cache_result(func):
@@ -20,18 +19,17 @@ def cache_result(func):
 
     Returns:
         function: The decorated function.
-
     """
     @wraps(func)
-    def wrapper(url):
-        key = f"count:{url}"
+    def wrapper(self, *args, **kwargs):
+        key = f"count:{args}"
         count = r.get(key)
         if count:
             r.incr(key)
         else:
             r.set(key, 1)
             r.expire(key, 10)
-        return func(url)
+        return func(args)
     return wrapper
 
 
